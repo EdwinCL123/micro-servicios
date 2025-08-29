@@ -1,6 +1,6 @@
 # 📦 Prueba Técnica Fullstack – Microservicios con Laravel + Docker
 
-## 🚀 Objetivo
+## Objetivo
 Implementar una solución con **dos microservicios en Laravel** (Productos e Inventario), que se comunican vía **HTTP/JSON API**, orquestados con **Docker Compose** y expuestos a través de un **Nginx Gateway**.
 
 ---
