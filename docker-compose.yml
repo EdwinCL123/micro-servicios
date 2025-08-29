@@ -1,0 +1,126 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: microservicios-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: microservicios_db
+      MYSQL_USER: micro_user
+      MYSQL_PASSWORD: micro_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - appnet
+
+  productos:
+    build:
+      context: ./productosinv-service
+      dockerfile: Dockerfile
+    container_name: microservicios-productos
+    restart: always
+    depends_on:
+      - db
+    environment:
+      APP_ENV: local
+      APP_KEY: base64:LRVjpp047lRX46NE7jGkBfQ5rSNG/nGVGBM4q9FhHBg=
+      APP_DEBUG: true
+      APP_URL: http://localhost/productos
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: microservicios_db
+      DB_USERNAME: micro_user
+      DB_PASSWORD: micro_pass
+      PRODUCTOS_API_KEY: secret123
+      INVENTARIO_API_KEY: secret123
+    volumes:
+      - ./productosinv-service:/var/www
+    command: >-
+      sh -lc '
+        if [ ! -d vendor ]; then
+          echo "Instalando dependencias (composer install)...";
+          composer install --no-interaction --prefer-dist --optimize-autoloader;
+        fi;
+        until nc -z db 3306; do
+          echo "Esperando a MySQL...";
+          sleep 3;
+        done;
+        php artisan config:clear && php artisan cache:clear && php artisan optimize:clear;
+        php artisan migrate --force;
+        php artisan serve --host=0.0.0.0 --port=8000
+      '
+    expose:
+      - "8000"
+    networks:
+      - appnet
+
+  inventario:
+    build:
+      context: ./inventario-service
+      dockerfile: Dockerfile
+    container_name: microservicios-inventario
+    restart: always
+    depends_on:
+      - db
+      - productos
+    environment:
+      APP_ENV: local
+      APP_KEY: base64:LRVjpp047lRX46NE7jGkBfQ5rSNG/nGVGBM4q9FhHBg=
+      APP_DEBUG: true
+      APP_URL: http://localhost/inventario
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: microservicios_db
+      DB_USERNAME: micro_user
+      DB_PASSWORD: micro_pass
+      PRODUCTOS_SERVICE_URL: http://microservicios-productos:8000
+      PRODUCTOS_API_KEY: secret123
+      INVENTARIO_API_KEY: secret123
+    volumes:
+      - ./inventario-service:/var/www
+    command: >-
+      sh -lc '
+        if [ ! -d vendor ]; then
+          echo "Instalando dependencias (composer install)...";
+          composer install --no-interaction --prefer-dist --optimize-autoloader;
+        fi;
+        until nc -z db 3306; do
+          echo "Esperando a MySQL...";
+          sleep 3;
+        done;
+        php artisan config:clear && php artisan cache:clear && php artisan optimize:clear;
+        php artisan migrate --force;
+        php artisan serve --host=0.0.0.0 --port=8000
+      '
+    expose:
+      - "8000"
+    networks:
+      - appnet
+
+  nginx:
+    image: nginx:alpine
+    container_name: microservicios-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - productos
+      - inventario
+    networks:
+      - appnet
+
+# IMPORTANTE: define la red y el volumen (aunque sean “vacíos”)
+networks:
+  appnet:
+    driver: bridge
+
+volumes:
+  db_data: {}

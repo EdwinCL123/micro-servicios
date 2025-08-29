@@ -1,0 +1,13 @@
+# Laravel
+/vendor
+/node_modules
+.env
+
+# Cache
+/storage/framework/cache/*
+/storage/framework/views/*
+/storage/logs/*
+/bootstrap/cache/*
+
+# Docker
+db_data
