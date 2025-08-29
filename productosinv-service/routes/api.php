@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ProductoController;
+use L5Swagger\Http\Controllers\SwaggerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,3 @@ Route::prefix('productos')->group(function () {
     Route::delete('{id}', [ProductoController::class, 'destroy']); // Eliminar producto por ID
 });
 
-Route::get('/docs', function () {
-    return view('l5-swagger::index');
-});

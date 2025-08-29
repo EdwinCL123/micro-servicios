@@ -15,10 +15,9 @@ use App\Http\Controllers\API\InventarioController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/documentacion/inventario', function () {
+    return view('l5-swagger::index');
 });
-
 
 Route::get('/inventario/{id}', [InventarioController::class, 'show']);
 Route::put('/inventario/{id}', [InventarioController::class, 'update']);

@@ -9,8 +9,28 @@ use App\Http\Resources\InventarioResource;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+
+/**
+ * @OA\Info(
+ *      title="API Inventario",
+ *      version="1.0.0",
+ *      description="Documentación de la API de Inventario"
+ * )
+ */
+
 class InventarioController extends Controller
 {
+
+     /**
+     * @OA\Get(
+     *     path="/inventario",
+     *     summary="Listar inventario",
+     *     tags={"Inventario"},
+     *     @OA\Response(response=200, description="Lista obtenida")
+     * )
+     */
+
+     
     // Consultar inventario
   // app/Http/Controllers/API/InventarioController.php
 

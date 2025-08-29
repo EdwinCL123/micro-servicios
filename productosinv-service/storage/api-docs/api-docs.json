@@ -2,16 +2,70 @@
     "openapi": "3.0.0",
     "info": {
         "title": "API Productos",
+        "description": "Documentación de la API de Productos",
         "version": "1.0.0"
     },
     "paths": {
-        "/api/productos/{id}": {
+        "/productos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Listar todos los productos (paginados)",
+                "operationId": "5aac53b44006dc888a9452a3c2d9772f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos obtenida correctamente"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "operationId": "d8bd41ffb3c6c42ee4b68695dd28d548",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "precio"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Laptop"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": "1200.50"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/productos/{id}": {
             "get": {
                 "tags": [
                     "Productos"
                 ],
                 "summary": "Obtener un producto por ID",
-                "operationId": "6fab1cfc1a192e8c757b5db4be8deb2f",
+                "operationId": "2492790341cbf30e1ac0cfa6003266f3",
                 "parameters": [
                     {
                         "name": "id",
@@ -26,6 +80,78 @@
                 "responses": {
                     "200": {
                         "description": "Producto encontrado"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "operationId": "258e90158a68c8c6b6278967633bcc89",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Producto eliminado"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto existente",
+                "operationId": "08332ff928e7e0ba736d3f7c0bba5389",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Laptop Gamer"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": "1500.00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado"
                     },
                     "404": {
                         "description": "Producto no encontrado"

@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Inventario",
+        "description": "Documentación de la API de Inventario",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/inventario": {
+            "get": {
+                "tags": [
+                    "Inventario"
+                ],
+                "summary": "Listar inventario",
+                "operationId": "479ead2463557c47dac42a8b7a2cfefd",
+                "responses": {
+                    "200": {
+                        "description": "Lista obtenida"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Inventario",
+            "description": "Inventario"
+        }
+    ]
+}
