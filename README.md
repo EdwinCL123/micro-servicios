@@ -12,16 +12,6 @@ Implementar una solución con **dos microservicios en Laravel** (Productos e Inv
 - **Base de Datos**: MySQL 8.0.
 - **Nginx Gateway**: expone endpoints unificados bajo `http://localhost`.
 
-```
-Cliente → Nginx → Productos ─┐
-          │                  │
-          └────→ Inventario ─┘
-                    │
-                   MySQL
-```
-
----
-
 ## 📂 Estructura del proyecto
 
 ```
@@ -51,7 +41,7 @@ microservicios/
 ### Pasos
 1. Clonar el repositorio:
    ```bash
-   git clone <URL_DEL_REPO>
+   git clone https://github.com/EdwinCL123/micro-servicios.git
    cd microservicios
    ```
 
@@ -83,17 +73,11 @@ microservicios/
 
 ---
 
-## 📑 Documentación con Swagger
-
-Cada microservicio incluye documentación **Swagger** para facilitar la exploración de la API.  
-La documentación se genera automáticamente con **l5-swagger** a partir de anotaciones en los controladores.
-
 ### Endpoints de documentación
 - **Productos**: [http://localhost/api/docs](http://localhost/api/docs)  
 - **Inventario**: [http://localhost/api/docs](http://localhost/api/docs)  
 
 ### Cómo regenerar la documentación
-Si realizas cambios en las rutas o controladores, ejecuta dentro del contenedor correspondiente:
 
 ```bash
 docker exec -it microservicios-productos php artisan l5-swagger:generate
@@ -103,10 +87,7 @@ docker exec -it microservicios-inventario php artisan l5-swagger:generate
 ---
 
 ## 🧪 Pruebas unitarias
-
-Cada microservicio incluye pruebas unitarias y de integración usando **PHPUnit**.  
-
-### Ejecutar pruebas
+## Ejecutar pruebas
 ```bash
 # Microservicio Productos
 docker exec -it microservicios-productos php artisan test
@@ -197,17 +178,4 @@ Body:
 
 ---
 
-## ✅ Checklist de entrega
 
-- [x] CRUD de Productos  
-- [x] Gestión de Inventario  
-- [x] Comunicación entre microservicios vía JSON API  
-- [x] Autenticación con API Key  
-- [x] Manejo de errores y timeouts  
-- [x] Docker + Docker Compose  
-- [x] Nginx como gateway  
-- [x] Documentación Swagger integrada  
-- [x] Pruebas unitarias con PHPUnit  
-- [x] README con instrucciones claras  
-
----
