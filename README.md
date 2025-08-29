@@ -74,8 +74,8 @@ microservicios/
 ---
 
 ### Endpoints de documentación
-- **Productos**: [http://localhost/api/docs](http://localhost/api/docs)  
-- **Inventario**: [http://localhost/api/docs](http://localhost/api/docs)  
+- **Productos**: http://localhost/docs-productos
+- **Inventario**: http://localhost/docs-inventario 
 
 ### Cómo regenerar la documentación
 
