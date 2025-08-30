@@ -63,7 +63,7 @@ services:
     build:
       context: ./inventario-service
       dockerfile: Dockerfile
-    container_name: microservicios-inventario
+    container_name: micro-servicios-inventario
     restart: always
     depends_on:
       - db
